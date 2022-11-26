@@ -27,7 +27,7 @@ def load_file_config():
 def before_request_callback():
   url = limpiar_url(request.path)
   excluded_routes = ["/login"]
-  if url in excluded_routes:
+  if url in excluded_routes or request.method.upper() == "OPTIONS":
     print("Ruta excluida del middleware", url)
   else:
     if verify_jwt_in_request():
@@ -88,12 +88,54 @@ def listar_candidadatos():
   response = requests.get(url)
   return jsonify(response.json())
 
+@app.route("/candidato", methods=["POST"])
+def crear_candidato():
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/candidatos"
+  response = requests.post(url, json=request.get_json())
+  return jsonify(response.json())
+
+@app.route("/candidato/<string:id>", methods=["DELETE"])
+def eliminar_candidato(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/candidatos/" + id
+  response = requests.delete(url)
+  return jsonify(response.json())
+
+@app.route("/candidato/<string:id>", methods=["PUT"])
+def actualizar_candidato(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/candidatos/" + id
+  response = requests.put(url, json=request.get_json())
+  return jsonify(response.json())
+
 #Servicios para mesa
 @app.route("/mesa", methods=["GET"])
 def listar_mesas():
   config_data = load_file_config()
   url = config_data["url-backend-registraduria"] + "/mesa"
   response = requests.get(url)
+  return jsonify(response.json())
+
+@app.route("/mesa", methods=["POST"])
+def crear_mesas():
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/mesas"
+  response = requests.post(url, json=request.get_json())
+  return jsonify(response.json())
+
+@app.route("/mesa/<string:id>", methods=["DELETE"])
+def eliminar_mesa(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/mesas/" + id
+  response = requests.delete(url)
+  return jsonify(response.json())
+
+@app.route("/mesa/<string:id>", methods=["PUT"])
+def actualizar_mesa(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/mesas/" + id
+  response = requests.put(url, json=request.get_json())
   return jsonify(response.json())
 
 #Servicios para partidos politicos
@@ -104,12 +146,54 @@ def listar_partidospoliticos():
   response = requests.get(url)
   return jsonify(response.json())
 
+@app.route("/partidopolitico", methods=["POST"])
+def crear_partidopoliticos():
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/partidopoliticos"
+  response = requests.post(url, json=request.get_json())
+  return jsonify(response.json())
+
+@app.route("/partidopolitico/<string:id>", methods=["DELETE"])
+def eliminar_partidopolitico(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/partidopoliticos/" + id
+  response = requests.delete(url)
+  return jsonify(response.json())
+
+@app.route("/partidopolitico/<string:id>", methods=["PUT"])
+def actualizar_partidopolitico(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/partidopoliticos/" + id
+  response = requests.put(url, json=request.get_json())
+  return jsonify(response.json())
+
 #Servicios para cuidadanos
 @app.route("/cuidadano", methods=["GET"])
 def listar_cuidadanos():
   config_data = load_file_config()
   url = config_data["url-backend-registraduria"] + "/cuidadano"
   response = requests.get(url)
+  return jsonify(response.json())
+
+@app.route("/cuidadano", methods=["POST"])
+def crear_cuidadanos():
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/cuidadanos"
+  response = requests.post(url, json=request.get_json())
+  return jsonify(response.json())
+
+@app.route("/cuidadano/<string:id>", methods=["DELETE"])
+def eliminar_cuidadano(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/cuidadanos/" + id
+  response = requests.delete(url)
+  return jsonify(response.json())
+
+@app.route("/cuidadano/<string:id>", methods=["PUT"])
+def actualizar_cuidadano(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/cuidadanos/" + id
+  response = requests.put(url, json=request.get_json())
   return jsonify(response.json())
 
 #Servicios para votos candidato
@@ -120,12 +204,54 @@ def listar_votos():
   response = requests.get(url)
   return jsonify(response.json())
 
+@app.route("/votocandidato", methods=["POST"])
+def crear_votos():
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/votocandidatos"
+  response = requests.post(url, json=request.get_json())
+  return jsonify(response.json())
+
+@app.route("/votocandidato/<string:id>", methods=["DELETE"])
+def eliminar_votos(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/votocandidatos/" + id
+  response = requests.delete(url)
+  return jsonify(response.json())
+
+@app.route("/votocandidato/<string:id>", methods=["PUT"])
+def actualizar_votos(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/votocandidatos/" + id
+  response = requests.put(url, json=request.get_json())
+  return jsonify(response.json())
+
 #Servicios para votos partidos politicos
 @app.route("/votopp", methods=["GET"])
 def listar_votopartidopolitico():
   config_data = load_file_config()
   url = config_data["url-backend-registraduria"] + "/votopp"
   response = requests.get(url)
+  return jsonify(response.json())
+
+@app.route("/votopp", methods=["POST"])
+def crear_votopartidopolitico():
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/votopps"
+  response = requests.post(url, json=request.get_json())
+  return jsonify(response.json())
+
+@app.route("/votopp/<string:id>", methods=["DELETE"])
+def eliminar_votopartidopolitico(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/votopps/" + id
+  response = requests.delete(url)
+  return jsonify(response.json())
+
+@app.route("/votopp/<string:id>", methods=["PUT"])
+def actualizar_votopartidopolitico(id):
+  config_data = load_file_config()
+  url = config_data["url-backend-registraduria"] + "/votopps/" + id
+  response = requests.put(url, json=request.get_json())
   return jsonify(response.json())
 
 if __name__ == '__main__' :
